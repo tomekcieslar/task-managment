@@ -1,31 +1,43 @@
 import React from 'react';
 import { BrowserRouter , Route, Link } from "react-router-dom";
 import GroupCreate from './groups/GroupCreate';
-import GroupDelete from './groups/GroupDelete';
 import GroupIndex from './groups/GroupIndex';
 import GroupShow from './groups/GroupShow';
-import SignUp from './auth/SignUp'
+import GroupUpdate from './groups/GroupUpdate';
+import SignUp from './auth/SignUp';
+import SignIn from './auth/SignIn';
 
 class App extends React.Component {
+  logout = () => {
+    localStorage.removeItem('accessToken')
+    localStorage.removeItem('user_id')
+    console.log(localStorage.getItem('accessToken'))
+      window.location = '/signin'
+  }
   render() {
+    if (localStorage.getItem('accessToken')) {
+      var button = 'Logout'
+    } else {
+      var button = 'Sign in'
+    }
     return (
       <div>
-        Task managment
         <BrowserRouter>
-          <div  className="container">
-            <ul>
-              <li>
-                <Link to="/">Home</Link>
-              </li>
-              <li>
-                <Link to="/groups">Groups</Link>
-              </li>
-            </ul>
-
-            <Route path="/groups" exact component={GroupIndex} />
-            <Route path="/groups/:id" exact component={GroupShow} />
-            <Route path="/signup" exact component={SignUp} />
+          <div className="ui secondary pointing menu">
+            <Link className="item" to="/">Home</Link>
+            <Link className="item" to="/groups">Groups</Link>
+            <div className="right menu">
+              <button className="ui item active" onClick={this.logout}>
+                {button}
+              </button>
+            </div>
           </div>
+          <Route path="/groups" exact component={GroupIndex} />
+          <Route path="/groups/:id" exact component={GroupShow} />
+          <Route path="/groups/:id/edit" exact component={GroupUpdate} />
+          <Route path="/groups/new" exact component={GroupCreate} />
+          <Route path="/signup" exact component={SignUp} />
+          <Route path="/signin" exact component={SignIn} />
         </BrowserRouter>
       </div>
     );

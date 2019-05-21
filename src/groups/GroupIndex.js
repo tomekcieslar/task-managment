@@ -1,31 +1,47 @@
-import React from 'react'
+import React from 'react';
+import axios from 'axios';
 import { BrowserRouter , Route, Link } from "react-router-dom";
 
 
-const groups = [
-  {group_id: 1, name: 'grupa1', owner_user_id: 1,token: '123'},
-  {group_id: 2, name: 'grupa2', owner_user_id: 2,token: '234'},
-  {group_id: 3, name: 'grupa3', owner_user_id: 3,token: '345'},
-  {group_id: 4, name: 'grupa3', owner_user_id: 4,token: '456'}
-]
 
 class GroupIndex extends React.Component  {
+
+state = {groups: []}
+
+componentDidMount = async () => {
+  const token = localStorage.getItem('accessToken')
+  console.log(token);
+  const response = await axios({
+    method: 'get',
+    url: 'http://localhost:8080/api/groups',
+    headers: {
+         'Authorization':  `Bearer ${token}`,
+         'Content-Type': 'application/json'
+       },
+  })
+  this.setState({groups: response.data})
+}
+
+
   render() {
     return (
       <div>
-        <table>
-          <tr>
+        <Link className="ui inverted green button" to='groups/new'>New</Link>
+        <table className="ui celled striped table">
+          <thead><tr>
             <th>ID</th>
             <th>Name</th>
-          </tr>
-          {groups.map(group => (
-            <tr>
-              <td>{group.group_id}</td>
-              <td>
-                <Link to={`/groups/${group.group_id}`}>{group.name}</Link>
-              </td>
-            </tr>
-          ))}
+          </tr></thead>
+          <tbody>
+            {this.state.groups.map(group => (
+              <tr>
+                <td>{group.group_id}</td>
+                <td>
+                  <Link to={`/groups/${group.group_id}`}>{group.name}</Link>
+                </td>
+              </tr>
+            ))}
+          </tbody>
         </table>
       </div>
     )

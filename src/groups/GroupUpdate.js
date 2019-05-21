@@ -1,10 +1,10 @@
 import React from 'react'
 import axios from 'axios'
-import { Redirect} from "react-router-dom";
+import { trimStart, trimEnd } from 'lodash'
 
-class GroupCreate extends React.Component  {
+class GroupUpdate extends React.Component  {
 
-  state = { name: '', owner_user_id: '', token: ''}
+  state = { name: '', owner_user_id: '', token: '' }
 
   onFormSubmit = (event) => {
     event.preventDefault();
@@ -16,11 +16,12 @@ class GroupCreate extends React.Component  {
 
        console.log(JSON.stringify(formData));
        const token = localStorage.getItem('accessToken')
-
+       var id = trimStart(window.location.pathname, 'groups/' )
+       id = trimEnd(id , '/edit' )
 
        axios({
-         method: 'post',
-         url: 'http://localhost:8080/api/groups',
+         method: 'put',
+         url: `http://localhost:8080/api/groups/${id}`,
          data: JSON.stringify(formData),
          headers: {
               'Authorization':  `Bearer ${token}`,
@@ -29,8 +30,7 @@ class GroupCreate extends React.Component  {
        }).then( (response) => {
          console.log(response)
          this.props.history.push('/groups')
-         //return <Redirect to={`/groups/${response.data.group_id}`} />
-       })
+       } );
      }
 
   render () {
@@ -45,8 +45,8 @@ class GroupCreate extends React.Component  {
             <label>Token</label>
             <input type="text" value={this.state.token} onChange={(e) => this.setState({token: e.target.value})}/>
           </div>
-          <button className="ui inverted green button" type="primary"size="large" >
-            Create
+          <button className="ui button" type="primary"size="large" >
+            Update
           </button>
         </form>
       </div>
@@ -54,4 +54,4 @@ class GroupCreate extends React.Component  {
   }
 }
 
-export default GroupCreate;
+export default GroupUpdate;
