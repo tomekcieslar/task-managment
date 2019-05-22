@@ -3,8 +3,11 @@ import axios from 'axios'
 import { trimStart, trimEnd } from 'lodash'
 
 class GroupUpdate extends React.Component  {
-
-  state = { name: '', owner_user_id: '', token: '' }
+  state = {
+    name: this.props.location.state.group.name,
+    owner_user_id: '',
+    token: this.props.location.state.group.token
+  }
 
   onFormSubmit = (event) => {
     event.preventDefault();
@@ -34,6 +37,7 @@ class GroupUpdate extends React.Component  {
      }
 
   render () {
+    console.log(this.props.location.state)
     return (
       <div>
         <form className="ui form" onSubmit={this.onFormSubmit}>
@@ -45,7 +49,7 @@ class GroupUpdate extends React.Component  {
             <label>Token</label>
             <input type="text" value={this.state.token} onChange={(e) => this.setState({token: e.target.value})}/>
           </div>
-          <button className="ui button" type="primary"size="large" >
+          <button className="ui inverted green button" type="primary"size="large" >
             Update
           </button>
         </form>

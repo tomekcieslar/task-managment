@@ -40,12 +40,13 @@ class SignIn extends React.Component {
             </div>
             <div className="field">
               <label>Password</label>
-              <input type="text" value={this.state.password} onChange={(e) => this.setState({password: e.target.value})}/>
+              <input type="password" value={this.state.password} onChange={(e) => this.setState({password: e.target.value})}/>
             </div>
-            <button className="ui button" type="primary"size="large">
+            <button className="ui inverted green button" type="primary"size="large">
               Sign In
             </button>
           </form>
+          <Link to="/signup">{"Don't have account? Sign Up"}</Link>
         </div>
       );
     }

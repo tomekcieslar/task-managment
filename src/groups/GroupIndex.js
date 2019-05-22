@@ -31,13 +31,15 @@ componentDidMount = async () => {
           <thead><tr>
             <th>ID</th>
             <th>Name</th>
+            <th></th>
           </tr></thead>
           <tbody>
             {this.state.groups.map(group => (
               <tr>
                 <td>{group.group_id}</td>
+                <td>{group.name}</td>
                 <td>
-                  <Link to={`/groups/${group.group_id}`}>{group.name}</Link>
+                  <Link  className="ui inverted green button" to={`/groups/${group.group_id}`}>Show</Link>
                 </td>
               </tr>
             ))}

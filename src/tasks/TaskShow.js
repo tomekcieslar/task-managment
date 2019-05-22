@@ -6,23 +6,23 @@ import 'react-confirm-alert/src/react-confirm-alert.css'; // Import css
 import { BrowserRouter , Route, Link} from "react-router-dom";
 
 
-class GroupShow extends React.Component  {
-  state = {group: null}
+class TaskShow extends React.Component  {
+  state = {task: null}
 
   componentDidMount = async () => {
     const token = localStorage.getItem('accessToken')
-    const id = trimStart(window.location.pathname, 'groups/' )
+    const id = trimStart(window.location.pathname, 'tasks/' )
     console.log(token);
     const response = await axios({
       method: 'get',
-      url: `http://localhost:8080/api/groups/${id}`,
+      url: `http://localhost:8080/api/tasks/${id}`,
       headers: {
            'Authorization':  `Bearer ${token}`,
            'Content-Type': 'application/json'
          },
     })
     console.log(response.data);
-    this.setState({group: response.data})
+    this.setState({task: response.data})
   }
 
   submit = () => {
@@ -44,41 +44,39 @@ class GroupShow extends React.Component  {
 
   onButtonClick() {
     const token = localStorage.getItem('accessToken')
-    const id = trimStart(window.location.pathname, 'groups/' )
-    axios.delete(`http://localhost:8080/api/groups/${id}`,{
+    const id = trimStart(window.location.pathname, 'tasks/' )
+    console.log(id);
+    axios.delete(`http://localhost:8080/api/tasks/${id}`,{
       headers: {
            'Authorization':  `Bearer ${token}`,
            'Content-Type': 'application/json'
          },
     })
-    window.location = '/groups'
+    window.location = '/tasks'
   }
 
   render () {
     return (
       <div>
-        {this.state.group && (
+        {this.state.task && (
           <div>
             <table className="ui definition table">
 
             <tr>
-              <td>Name:</td>
-              <td>{this.state.group.name}</td>
+              <td>Title:</td>
+              <td>{this.state.task.title}</td>
             </tr>
             <tr>
-            <td>Owner:</td>
-            <td>{this.state.group.owner.firstname}
-            {this.state.group.owner.lastname}</td>
+            <td>Description:</td>
+            <td>{this.state.task.description}</td>
             </tr>
             </table>
-            <Link className="ui inverted violet button" to={{pathname: `/groups/${this.state.group.group_id}/edit`, state: {group: this.state.group}}}>Edit</Link>
             <button className="ui inverted red button" onClick={this.submit}>
-              Delete Group
+              Delete Task
             </button>
-            <button className="ui inverted secondary button" onClick={()=>{ window.location = '/groups'}}>
+            <button className="ui inverted secondary button" onClick={()=>{ window.location = '/tasks'}}>
               Back
             </button>
-            <Link className="ui inverted green button" to={{pathname: '/tasks/new', state: {group: this.state.group.group_id}}}>Create Task</Link>
           </div>
         )}
       </div>
@@ -86,4 +84,4 @@ class GroupShow extends React.Component  {
   }
 }
 
-export default GroupShow;
+export default TaskShow;

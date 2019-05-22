@@ -6,6 +6,13 @@ import GroupShow from './groups/GroupShow';
 import GroupUpdate from './groups/GroupUpdate';
 import SignUp from './auth/SignUp';
 import SignIn from './auth/SignIn';
+import HomePage from './homepage/HomePage';
+import TaskCreate from './tasks/TaskCreate'
+import TaskIndex from './tasks/TaskIndex';
+import TaskUserIndex from './tasks/TaskUserIndex';
+import TaskUpdate from './tasks/TaskUpdate';
+import TaskShow from './tasks/TaskShow';
+
 
 class App extends React.Component {
   logout = () => {
@@ -26,16 +33,24 @@ class App extends React.Component {
           <div className="ui secondary pointing menu">
             <Link className="item" to="/">Home</Link>
             <Link className="item" to="/groups">Groups</Link>
+            <Link className="item" to="/tasks">Tasks</Link>
+
             <div className="right menu">
               <button className="ui item active" onClick={this.logout}>
                 {button}
               </button>
             </div>
           </div>
+          <Route path="/" exact component={HomePage} />
           <Route path="/groups" exact component={GroupIndex} />
           <Route path="/groups/:id" exact component={GroupShow} />
           <Route path="/groups/:id/edit" exact component={GroupUpdate} />
           <Route path="/groups/new" exact component={GroupCreate} />
+          <Route path="/tasks/new" exact component={TaskCreate} />
+          <Route path="/tasks" exact component={TaskIndex} />
+          <Route path="/tasks/:id/users" exact component={TaskUserIndex} />
+          <Route path="/tasks/:id/edit" exact component={TaskUpdate} />
+          <Route path="/tasks/:id" exact component={TaskShow} />
           <Route path="/signup" exact component={SignUp} />
           <Route path="/signin" exact component={SignIn} />
         </BrowserRouter>
@@ -44,4 +59,5 @@ class App extends React.Component {
   }
 };
 
+//<Link className="item" to={`/tasks/${localStorage.getItem('user_id')}/users`} >MyTasks</Link>
 export default App;
