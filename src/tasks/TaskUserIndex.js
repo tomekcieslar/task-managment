@@ -6,12 +6,11 @@ import { BrowserRouter , Route, Link } from "react-router-dom";
 
 class TaskUserIndex extends React.Component  {
 
-state = {tasks: []}
+state = {users: []}
 
 componentDidMount = async () => {
   const token = localStorage.getItem('accessToken')
   const id = localStorage.getItem('user_id')
-  console.log(token);
   const response = await axios({
     method: 'get',
     url: `http://localhost:8080/api/tasks/${id}/users`,
@@ -20,39 +19,27 @@ componentDidMount = async () => {
          'Content-Type': 'application/json'
        },
   })
-  this.setState({tasks: response.data})
-}
-
-statusSet = (props) => {
-  if (props == 0){
-
-    return 'In Progress'
-  } else {
-    return 'Done'
-  }
-
+  this.setState({users: response.data})
 }
 
   render() {
-    console.log(this.state.tasks);
+    console.log("tasks:", this.state.users);
     return (
        <div>
          <table className="ui celled striped table">
            <thead><tr>
              <th>ID</th>
-             <th>Title</th>
-             <th>Description</th>
-             <th>Status</th>
-             <th>Deadline</th>
+             <th>Firstname</th>
+             <th>Lastname</th>
+             <th>Email</th>
            </tr></thead>
            <tbody>
-             {this.state.tasks.map(task => (
+             {this.state.users.map(user => (
                <tr>
-                 <td>{task.task_id}</td>
-                 <td>{task.title}</td>
-                 <td>{task.description}</td>
-                 <td>{this.statusSet(task.status)}</td>
-                 <td>{task.task_date}</td>
+                 <td>{user.user_id}</td>
+                 <td>{user.firstname}</td>
+                 <td>{user.lastname}</td>
+                 <td>{user.email}</td>
                </tr>
              ))}
            </tbody>
