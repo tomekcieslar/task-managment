@@ -77,6 +77,7 @@ class TaskShow extends React.Component  {
             <button className="ui inverted secondary button" onClick={()=>{ window.location = '/tasks'}}>
               Back
             </button>
+            <Link className="ui inverted purple button" to={{pathname: `/tasks/${this.state.task.task_id}/users`}}>Assigned Users</Link>
           </div>
         )}
       </div>

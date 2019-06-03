@@ -12,6 +12,7 @@ import TaskIndex from './tasks/TaskIndex';
 import TaskUserIndex from './tasks/TaskUserIndex';
 import TaskUpdate from './tasks/TaskUpdate';
 import TaskShow from './tasks/TaskShow';
+import AddUser from './groups/AddUser'
 
 
 class App extends React.Component {
@@ -33,7 +34,6 @@ class App extends React.Component {
           <div className="ui secondary pointing menu">
             <Link className="item" to="/">Home</Link>
             <Link className="item" to="/groups">Groups</Link>
-            <Link className="item" to="/tasks">Tasks</Link>
 
             <div className="right menu">
               <button className="ui item active" onClick={this.logout}>
@@ -46,6 +46,7 @@ class App extends React.Component {
           <Route path="/groups/:id" exact component={GroupShow} />
           <Route path="/groups/:id/edit" exact component={GroupUpdate} />
           <Route path="/groups/new" exact component={GroupCreate} />
+          <Route path="/groups/join" exact component={AddUser} />
           <Route path="/tasks/new" exact component={TaskCreate} />
           <Route path="/tasks" exact component={TaskIndex} />
           <Route path="/tasks/:id/users" exact component={TaskUserIndex} />
