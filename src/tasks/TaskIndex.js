@@ -40,7 +40,7 @@ statusSet = (props) => {
 
   render() {
     return (
-       <div>
+       <div className="col-md-6 col-md-offset-3">
          <table className="ui celled striped table">
            <thead><tr>
              <th>ID</th>

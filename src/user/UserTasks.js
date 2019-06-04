@@ -1,7 +1,7 @@
 import React from 'react';
 import axios from 'axios';
 import { BrowserRouter , Route, Link } from "react-router-dom";
-import { trimStart } from 'lodash'
+import { trimStart, map } from 'lodash'
 import { confirmAlert } from 'react-confirm-alert'; // Import
 import 'react-confirm-alert/src/react-confirm-alert.css'; // Import css
 
@@ -83,15 +83,26 @@ onButtonClick(task) {
        }
   }).then( (response) => {
     console.log(response)
-    this.forceUpdate()
-  } );
+    if (response.status === 200) {
+      const newTask = Object.assign({}, task, {status: new_status})
+      const updatedTasks = map(this.state.tasks, (task) => {
+        if (task.task_id == newTask.task_id) {
+          return newTask
+        }
+        return task
+      })
+      this.setState({ tasks: updatedTasks })
+    } else {
+      console.log(response);
+    }
 
+  });
 
 }
 
   render() {
     return (
-       <div>
+       <div className="ui container middle aligned center aligned grid">
          <table className="ui celled striped table">
            <thead><tr>
              <th>ID</th>
@@ -108,7 +119,7 @@ onButtonClick(task) {
                  <td>{task.title}</td>
                  <td>{task.description}</td>
                  <td>{this.statusSet(task.status)}</td>
-                 <td>{task.task_date}</td>
+                 <td>{new Date(task.task_date).toLocaleDateString()}  {new Date(task.task_date).toLocaleTimeString()}</td>
                  <td>
                   <Link className="ui inverted green button" to={`/tasks/${task.task_id}`}>Show</Link>
                   <button className="ui inverted violet button" onClick={() => this.submit(task)}>

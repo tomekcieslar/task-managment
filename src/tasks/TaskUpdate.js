@@ -85,7 +85,7 @@ class TaskUpdate extends React.Component  {
           </div>
           <div className="field">
             <label>Task Date</label>
-            <input type="datetime-local" value={this.state.task_date} onChange={(e) => this.setState({task_date: e.target.value})}/>
+            <input type="datetime-local" value={Date(this.state.task_date)} onChange={(e) => this.setState({task_date: e.target.value})}/>
           </div>
           <div className="field">
             {this.state.users.map((user) => (

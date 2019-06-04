@@ -41,7 +41,7 @@ class UserUpdate extends React.Component  {
   render () {
     console.log(this.props.user_props.location.state)
     return (
-      <div>
+      <div className="col-md-6 col-md-offset-3">
         <form className="ui form" onSubmit={this.onFormSubmit}>
           <div className="field">
             <label>Firstname</label>
