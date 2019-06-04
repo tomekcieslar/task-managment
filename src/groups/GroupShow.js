@@ -7,7 +7,7 @@ import { BrowserRouter , Route, Link} from "react-router-dom";
 
 
 class GroupShow extends React.Component  {
-  state = {group: null}
+  state = {group: null, owner: null}
 
   componentDidMount = async () => {
     const token = localStorage.getItem('accessToken')
@@ -23,6 +23,10 @@ class GroupShow extends React.Component  {
     })
     console.log(response.data);
     this.setState({group: response.data})
+    console.log(this.state.group.owner.user_id);
+    if (this.state.group.owner.user_id == localStorage.getItem('user_id')) {
+      this.setState({owner: true})
+    }
   }
 
   submit = () => {
@@ -71,14 +75,21 @@ class GroupShow extends React.Component  {
             {this.state.group.owner.lastname}</td>
             </tr>
             </table>
-            <Link className="ui inverted violet button" to={{pathname: `/groups/${this.state.group.group_id}/edit`, state: {group: this.state.group}}}>Edit</Link>
-            <button className="ui inverted red button" onClick={this.submit}>
-              Delete Group
-            </button>
             <button className="ui inverted secondary button" onClick={()=>{ window.location = '/groups'}}>
               Back
             </button>
-            <Link className="ui inverted green button" to={{pathname: '/tasks/new', state: {group: this.state.group.group_id}}}>Create Task</Link>
+            <Link className="ui inverted blue button" to={{pathname: `/groups/${this.state.group.group_id}/users`, state: {group: this.state.group}}}>Show members</Link>
+            <Link className="ui inverted orange button" to={{pathname: `/tasks/`, state: {group: this.state.group}}}>Show Tasks</Link>
+
+            { this.state.owner && (
+              <div>
+                <Link className="ui inverted violet button" to={{pathname: `/groups/${this.state.group.group_id}/edit`, state: {group: this.state.group}}}>Edit</Link>
+                <Link className="ui inverted green button" to={{pathname: '/tasks/new', state: {group: this.state.group.group_id}}}>Create Task</Link>
+                <button className="ui inverted red button" onClick={this.submit}>
+                  Delete Group
+                </button>
+              </div>
+            )}
           </div>
         )}
       </div>

@@ -50,7 +50,7 @@ class TaskCreate extends React.Component  {
             }
        }).then( (response) => {
          console.log(response)
-         this.props.history.push('/tasks')
+         window.location = `/groups/${this.state.group_id.group_id}`
        }).catch ((err) => {
          console.log(err)
        })

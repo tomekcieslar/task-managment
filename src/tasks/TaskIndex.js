@@ -1,12 +1,13 @@
 import React from 'react';
 import axios from 'axios';
 import { BrowserRouter , Route, Link } from "react-router-dom";
+import {indexOf, without, filter} from 'lodash'
 
 
 
 class TaskIndex extends React.Component  {
 
-state = {tasks: []}
+state = {tasks: [], owner: null}
 
 componentDidMount = async () => {
   const token = localStorage.getItem('accessToken')
@@ -19,7 +20,12 @@ componentDidMount = async () => {
          'Content-Type': 'application/json'
        },
   })
-  this.setState({tasks: response.data})
+  let task = filter(response.data, (t) => t.group_id.group_id === this.props.group_props.location.state.group.group_id)
+
+  this.setState({tasks: task})
+  if (this.props.group_props.location.state.group.owner.user_id == localStorage.getItem('user_id')  ) {
+    this.setState({owner: true})
+  }
 }
 
 statusSet = (props) => {
@@ -54,7 +60,9 @@ statusSet = (props) => {
                  <td>{task.task_date}</td>
                  <td>
                   <Link className="ui inverted green button" to={`/tasks/${task.task_id}`}>Show</Link>
-                  <Link className="ui inverted purple button" to={{pathname: `/tasks/${task.task_id}/edit`, state: {task: task}}}>Edit</Link>
+                  {this.state.owner && (
+                    <Link className="ui inverted purple button" to={{pathname: `/tasks/${task.task_id}/edit`, state: {task: task}}}>Edit</Link>
+                  )}
                  </td>
                </tr>
              ))}

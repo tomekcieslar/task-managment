@@ -1,6 +1,7 @@
 import React from 'react';
 import axios from 'axios';
 import { BrowserRouter , Route, Link } from "react-router-dom";
+import { trimStart } from 'lodash'
 
 
 
@@ -10,10 +11,10 @@ state = {users: []}
 
 componentDidMount = async () => {
   const token = localStorage.getItem('accessToken')
-  const id = localStorage.getItem('user_id')
+  const id = trimStart(window.location.pathname, 'tasks/' )
   const response = await axios({
     method: 'get',
-    url: `http://localhost:8080/api/tasks/${id}/users`,
+    url: `http://localhost:8080/api/tasks/${id}`,
     headers: {
          'Authorization':  `Bearer ${token}`,
          'Content-Type': 'application/json'
@@ -23,7 +24,7 @@ componentDidMount = async () => {
 }
 
   render() {
-    console.log("tasks:", this.state.users);
+    console.log("users:", this.state.users);
     return (
        <div>
          <table className="ui celled striped table">
@@ -46,6 +47,7 @@ componentDidMount = async () => {
          </table>
        </div>
     )
+
   }
 }
 

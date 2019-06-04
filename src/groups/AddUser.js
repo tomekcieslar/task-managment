@@ -26,7 +26,7 @@ class AddUser extends React.Component  {
             }
        }).then( (response) => {
          console.log(response)
-         this.props.history.push('/groups')
+         window.location = `/users/${localStorage.getItem('user_id')}/groups`
          //return <Redirect to={`/groups/${response.data.group_id}`} />
        })
      }

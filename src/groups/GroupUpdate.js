@@ -4,9 +4,9 @@ import { trimStart, trimEnd } from 'lodash'
 
 class GroupUpdate extends React.Component  {
   state = {
-    name: this.props.location.state.group.name,
+    name: this.props.group_props.location.state.group.name,
     owner_user_id: '',
-    token: this.props.location.state.group.token
+    token: this.props.group_props.location.state.group.token
   }
 
   onFormSubmit = (event) => {
@@ -32,12 +32,12 @@ class GroupUpdate extends React.Component  {
             }
        }).then( (response) => {
          console.log(response)
-         this.props.history.push('/groups')
+         window.location = '/groups'
        } );
      }
 
   render () {
-    console.log(this.props.location.state)
+    console.log(this.props.group_props.location.state)
     return (
       <div>
         <form className="ui form" onSubmit={this.onFormSubmit}>

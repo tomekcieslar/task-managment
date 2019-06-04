@@ -1,14 +1,32 @@
 import React from 'react'
 import axios from 'axios'
 import { Redirect} from "react-router-dom";
+import {indexOf, without, filter} from 'lodash'
 
 class TaskUpdate extends React.Component  {
 
   state = {
-    title: this.props.location.state.task.title,
-    group_id: {group_id: this.props.location.state.task.group_id.group_id},
-    description: this.props.location.state.task.description,
-    task_date: this.props.location.state.task.task_date
+    title: this.props.task_props.location.state.task.title,
+    group_id: {group_id: this.props.task_props.location.state.task.group_id.group_id},
+    description: this.props.task_props.location.state.task.description,
+    task_date: this.props.task_props.location.state.task.task_date,
+    users: [],
+    checked_users: [],
+   }
+
+   componentDidMount = async () => {
+     const token = localStorage.getItem('accessToken')
+     const group_id = this.props.task_props.location.state.task.group_id.group_id
+     console.log(token);
+     const response = await axios({
+       method: 'get',
+       url: `http://localhost:8080/api/groups/${group_id}/users`,
+       headers: {
+            'Authorization':  `Bearer ${token}`,
+            'Content-Type': 'application/json'
+          },
+     })
+     this.setState({users: response.data})
    }
 
   onFormSubmit = (event) => {
@@ -17,12 +35,13 @@ class TaskUpdate extends React.Component  {
          group_id: this.state.group_id,
          task_date: this.state.task_date,
          title: this.state.title,
-         description: this.state.description
+         description: this.state.description,
+         users: this.state.checked_users
        };
 
        console.log(JSON.stringify(formData));
        const token = localStorage.getItem('accessToken')
-       const id = this.props.location.state.task.task_id
+       const id = this.props.task_props.location.state.task.task_id
 
        axios({
          method: 'put',
@@ -34,14 +53,25 @@ class TaskUpdate extends React.Component  {
             }
        }).then( (response) => {
          console.log(response)
-         this.props.history.push('/tasks')
+          window.location = '/tasks'
        }).catch ((err) => {
          console.log(err)
        })
      }
 
+   handleResultChange = (user_id, checked) => {
+     console.log(user_id);
+     let cu = [...this.state.checked_users]
+     if (checked) {
+       cu.push({user_id: user_id})
+     } else {
+       cu = filter(cu, (user) => user.user_id !== user_id)
+   }
+   this.setState({ checked_users: cu })
+  }
+
   render () {
-    console.log(this.props.location.state.task);
+    console.log('USERS:', this.state.checked_users);
     return (
       <div>
         <form className="ui form" onSubmit={this.onFormSubmit}>
@@ -56,6 +86,14 @@ class TaskUpdate extends React.Component  {
           <div className="field">
             <label>Task Date</label>
             <input type="datetime-local" value={this.state.task_date} onChange={(e) => this.setState({task_date: e.target.value})}/>
+          </div>
+          <div className="field">
+            {this.state.users.map((user) => (
+              <div>
+                <input type="checkbox"  onChange={(e) => this.handleResultChange(user.user_id, e.target.checked)}/>
+                {user.email}
+              </div>
+            ))}
           </div>
           <button className="ui inverted green button" type="primary"size="large" >
             Update

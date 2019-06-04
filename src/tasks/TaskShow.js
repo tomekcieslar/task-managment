@@ -7,7 +7,7 @@ import { BrowserRouter , Route, Link} from "react-router-dom";
 
 
 class TaskShow extends React.Component  {
-  state = {task: null}
+  state = {task: null, owner: null}
 
   componentDidMount = async () => {
     const token = localStorage.getItem('accessToken')
@@ -23,6 +23,9 @@ class TaskShow extends React.Component  {
     })
     console.log(response.data);
     this.setState({task: response.data})
+    if (this.state.task.group_id.owner.user_id == localStorage.getItem('user_id')  ) {
+      this.setState({owner: true})
+    }
   }
 
   submit = () => {
@@ -56,6 +59,7 @@ class TaskShow extends React.Component  {
   }
 
   render () {
+    console.log(this.state.owner);
     return (
       <div>
         {this.state.task && (
@@ -71,13 +75,12 @@ class TaskShow extends React.Component  {
             <td>{this.state.task.description}</td>
             </tr>
             </table>
-            <button className="ui inverted red button" onClick={this.submit}>
-              Delete Task
-            </button>
-            <button className="ui inverted secondary button" onClick={()=>{ window.location = '/tasks'}}>
-              Back
-            </button>
             <Link className="ui inverted purple button" to={{pathname: `/tasks/${this.state.task.task_id}/users`}}>Assigned Users</Link>
+            {this.state.owner && (
+              <button className="ui inverted red button" onClick={this.submit}>
+                Delete Task
+              </button>
+            )}
           </div>
         )}
       </div>
