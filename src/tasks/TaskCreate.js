@@ -71,32 +71,35 @@ class TaskCreate extends React.Component  {
     console.log(this.props.location.state.group);
     console.log(this.state.checked_users);
     return (
-      <div>
-        <form className="ui form" onSubmit={this.onFormSubmit}>
-          <div className="field">
-            <label>Title</label>
-            <input type="text" value={this.state.title} onChange={(e) => this.setState({title: e.target.value})}/>
-          </div>
-          <div className="field">
-            <label>Description</label>
-            <input type="text" value={this.state.description} onChange={(e) => this.setState({description: e.target.value})}/>
-          </div>
-          <div className="field">
-            <label>Task Date</label>
-            <input type="datetime-local" value={this.state.task_date} onChange={(e) => this.setState({task_date: e.target.value})}/>
-          </div>
-          <div className="field">
-            {this.state.users.map((user) => (
-              <div>
-                <input type="checkbox"  onChange={(e) => this.handleResultChange(user.user_id, e.target.checked)}/>
-                {user.email}
-              </div>
-            ))}
-          </div>
-          <button className="ui inverted green button" type="primary"size="large" >
-            Create
-          </button>
-        </form>
+      <div className="ui container middle aligned center aligned grid">
+        <div className="column ui segment" style={{marginTop: '1rem'}}>
+          <h1>Create Task</h1>
+          <form className="ui form" onSubmit={this.onFormSubmit}>
+            <div className="field">
+              <label>Title</label>
+              <input type="text" value={this.state.title} onChange={(e) => this.setState({title: e.target.value})}/>
+            </div>
+            <div className="field">
+              <label>Description</label>
+              <input type="text" value={this.state.description} onChange={(e) => this.setState({description: e.target.value})}/>
+            </div>
+            <div className="field">
+              <label>Task Date</label>
+              <input type="datetime-local" value={this.state.task_date} onChange={(e) => this.setState({task_date: e.target.value})}/>
+            </div>
+            <div className="column ui segment" style={{marginTop: '1rem'}}>
+              {this.state.users.map((user) => (
+                <div className="ui checkbox">
+                  <input type="checkbox"  onChange={(e) => this.handleResultChange(user.user_id, e.target.checked)}/>
+                  <label>{user.email}</label>
+                </div>
+              ))}
+            </div>
+            <button className="ui inverted green button" type="primary"size="large" >
+              Create
+            </button>
+          </form>
+        </div>
       </div>
     );
   }

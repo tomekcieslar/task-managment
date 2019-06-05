@@ -35,20 +35,23 @@ class GroupCreate extends React.Component  {
 
   render () {
     return (
-      <div>
-        <form className="ui form" onSubmit={this.onFormSubmit}>
-          <div className="field">
-            <label>Name</label>
-            <input type="text" value={this.state.name} onChange={(e) => this.setState({name: e.target.value})}/>
-          </div>
-          <div className="field">
-            <label>Token</label>
-            <input type="text" value={this.state.token} onChange={(e) => this.setState({token: e.target.value})}/>
-          </div>
-          <button className="ui inverted green button" type="primary"size="large" >
-            Create
-          </button>
-        </form>
+      <div className="ui container middle aligned center aligned grid">
+        <div className="column ui segment" style={{marginTop: '1rem'}}>
+          <h1>Create Group</h1>
+          <form className="ui form" onSubmit={this.onFormSubmit}>
+            <div className="field">
+              <label>Name</label>
+              <input type="text" value={this.state.name} onChange={(e) => this.setState({name: e.target.value})}/>
+            </div>
+            <div className="field">
+              <label>Token</label>
+              <input type="text" value={this.state.token} onChange={(e) => this.setState({token: e.target.value})}/>
+            </div>
+            <button className="ui inverted green button" type="primary"size="large" >
+              Create
+            </button>
+          </form>
+        </div>
       </div>
     );
   }
