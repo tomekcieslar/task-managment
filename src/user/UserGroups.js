@@ -60,27 +60,29 @@ onButtonClick(id) {
       <div>
         <Link className="ui inverted green button" to='/groups/new'>New</Link>
         <Link className="ui inverted blue button" to='/groups/join'>Join</Link>
-        <table className="ui celled striped table">
-          <thead><tr>
-            <th>ID</th>
-            <th>Name</th>
-            <th></th>
-          </tr></thead>
-          <tbody>
-            {this.state.groups.map(group => (
-              <tr>
-                <td>{group.group_id}</td>
-                <td>{group.name}</td>
-                <td>
-                  <Link  className="ui inverted green button" to={`/groups/${group.group_id}`}>Show</Link>
-                  <button className="ui inverted red button" onClick={() => this.submit(group.group_id)}>
-                    Leave Group
-                  </button>
-                </td>
-              </tr>
-            ))}
-          </tbody>
-        </table>
+        <div>
+          <table className="ui celled striped table">
+            <thead><tr>
+              <th>ID</th>
+              <th>Name</th>
+              <th></th>
+            </tr></thead>
+            <tbody>
+              {this.state.groups.map(group => (
+                <tr>
+                  <td>{group.group_id}</td>
+                  <td>{group.name}</td>
+                  <td>
+                    <Link  className="ui inverted green button" to={`/groups/${group.group_id}`}>Show</Link>
+                    <button className="ui inverted red button" onClick={() => this.submit(group.group_id)}>
+                      Leave Group
+                    </button>
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>  
       </div>
     )
   }

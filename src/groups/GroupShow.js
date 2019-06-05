@@ -46,6 +46,18 @@ class GroupShow extends React.Component  {
     });
   };
 
+  click = () => {
+    confirmAlert({
+      title: 'Your Token',
+      message: this.state.group.token,
+      buttons: [
+        {
+          label: 'Ok'
+        },
+      ]
+    });
+  };
+
   onButtonClick() {
     const token = localStorage.getItem('accessToken')
     const id = trimStart(window.location.pathname, 'groups/' )
@@ -60,7 +72,7 @@ class GroupShow extends React.Component  {
 
   render () {
     return (
-      <div>
+      <div className="ui container" >
         {this.state.group && (
           <div>
             <table className="ui definition table">
@@ -75,7 +87,7 @@ class GroupShow extends React.Component  {
             {this.state.group.owner.lastname}</td>
             </tr>
             </table>
-            <button className="ui inverted secondary button" onClick={()=>{ window.location = '/groups'}}>
+            <button className="ui inverted secondary button" onClick={()=>{ window.location = `/users/${localStorage.getItem('user_id')}/groups`}}>
               Back
             </button>
             <Link className="ui inverted blue button" to={{pathname: `/groups/${this.state.group.group_id}/users`, state: {group: this.state.group}}}>Show members</Link>
@@ -87,6 +99,9 @@ class GroupShow extends React.Component  {
                 <Link className="ui inverted green button" to={{pathname: '/tasks/new', state: {group: this.state.group.group_id}}}>Create Task</Link>
                 <button className="ui inverted red button" onClick={this.submit}>
                   Delete Group
+                </button>
+                <button className="ui inverted yellow button" onClick={this.click}>
+                  Show Token
                 </button>
               </div>
             )}

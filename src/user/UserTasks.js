@@ -1,7 +1,7 @@
 import React from 'react';
 import axios from 'axios';
 import { BrowserRouter , Route, Link } from "react-router-dom";
-import { trimStart, map } from 'lodash'
+import { trimStart, map, orderBy } from 'lodash'
 import { confirmAlert } from 'react-confirm-alert'; // Import
 import 'react-confirm-alert/src/react-confirm-alert.css'; // Import css
 
@@ -23,8 +23,9 @@ componentDidMount = async () => {
          'Content-Type': 'application/json'
        },
   })
+  let task = orderBy(response.data, ['status','task_date'],  ['asc','asc'])
   console.log(response.data);
-  this.setState({tasks: response.data})
+  this.setState({tasks: task})
 }
 
 statusSet = (props) => {
@@ -119,7 +120,9 @@ onButtonClick(task) {
                  <td>{task.title}</td>
                  <td>{task.description}</td>
                  <td>{this.statusSet(task.status)}</td>
-                 <td>{new Date(task.task_date).toLocaleDateString()}  {new Date(task.task_date).toLocaleTimeString()}</td>
+                 <td>
+                  {new Date(task.task_date).toLocaleDateString()} {new Date(task.task_date).toLocaleTimeString()}
+                 </td>
                  <td>
                   <Link className="ui inverted green button" to={`/tasks/${task.task_id}`}>Show</Link>
                   <button className="ui inverted violet button" onClick={() => this.submit(task)}>

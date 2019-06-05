@@ -1,7 +1,7 @@
 import React from 'react';
 import axios from 'axios';
 import { BrowserRouter , Route, Link } from "react-router-dom";
-import {indexOf, without, filter} from 'lodash'
+import {indexOf, without, filter, orderBy} from 'lodash'
 
 
 
@@ -21,7 +21,8 @@ componentDidMount = async () => {
        },
   })
   let task = filter(response.data, (t) => t.group_id.group_id === this.props.group_props.location.state.group.group_id)
-
+  task = orderBy(task, ['task_date'],  ['asc'])
+  console.log(task);
   this.setState({tasks: task})
   if (this.props.group_props.location.state.group.owner.user_id == localStorage.getItem('user_id')  ) {
     this.setState({owner: true})
@@ -57,7 +58,10 @@ statusSet = (props) => {
                  <td>{task.title}</td>
                  <td>{task.description}</td>
                  <td>{this.statusSet(task.status)}</td>
-                 <td>{task.task_date}</td>
+                 <td>
+                  {new Date(task.task_date).toLocaleDateString()} {new Date(task.task_date).toLocaleTimeString()}
+                 </td>
+
                  <td>
                   <Link className="ui inverted green button" to={`/tasks/${task.task_id}`}>Show</Link>
                   {this.state.owner && (

@@ -41,28 +41,31 @@ class UserUpdate extends React.Component  {
   render () {
     console.log(this.props.user_props.location.state)
     return (
-      <div className="col-md-6 col-md-offset-3">
-        <form className="ui form" onSubmit={this.onFormSubmit}>
-          <div className="field">
-            <label>Firstname</label>
-            <input type="text" value={this.state.firstname} onChange={(e) => this.setState({firstname: e.target.value})}/>
-          </div>
-          <div className="field">
-            <label>Lastname</label>
-            <input type="text" value={this.state.lastname} onChange={(e) => this.setState({lastname: e.target.value})}/>
-          </div>
-          <div className="field">
-            <label>Email</label>
-            <input type="text" value={this.state.email} onChange={(e) => this.setState({email: e.target.value})}/>
-          </div>
-          <div className="field">
-            <label>Password</label>
-            <input type="password" value={this.state.password} onChange={(e) => this.setState({password: e.target.value})}/>
-          </div>
-          <button className="ui inverted green button" type="primary"size="large" >
-            Update
-          </button>
-        </form>
+      <div className="ui container middle aligned center aligned grid">
+        <div className="column ui segment" style={{marginTop: '1rem'}}>
+          <h1>Edit Profile</h1>
+          <form className="ui form" onSubmit={this.onFormSubmit}>
+            <div className="field">
+              <label>Firstname</label>
+              <input type="text" value={this.state.firstname} onChange={(e) => this.setState({firstname: e.target.value})}/>
+            </div>
+            <div className="field">
+              <label>Lastname</label>
+              <input type="text" value={this.state.lastname} onChange={(e) => this.setState({lastname: e.target.value})}/>
+            </div>
+            <div className="field">
+              <label>Email</label>
+              <input type="text" value={this.state.email} onChange={(e) => this.setState({email: e.target.value})}/>
+            </div>
+            <div className="field">
+              <label>Password</label>
+              <input type="password" value={this.state.password} onChange={(e) => this.setState({password: e.target.value})}/>
+            </div>
+            <button className="ui inverted green button" type="primary"size="large" >
+              Update
+            </button>
+          </form>
+        </div>
       </div>
     );
   }
