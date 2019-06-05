@@ -18,6 +18,7 @@ import UserShow from './user/UserShow'
 import UserUpdate from './user/UserUpdate'
 import UserTasks from './user/UserTasks'
 import UserGroups from './user/UserGroups'
+import Calendar from "./calendar/Calendar";
 
 class App extends React.Component {
   logout = () => {
@@ -43,6 +44,7 @@ class App extends React.Component {
             <Link className="item" to={`/users/${localStorage.getItem('user_id')}`}>My Profile</Link>
             <Link className="item" to={`/users/${localStorage.getItem('user_id')}/tasks`} >My Tasks</Link>
             <Link className="item" to={`/users/${localStorage.getItem('user_id')}/groups`} >My Groups</Link>
+            <Link className="item" to={`/calendar`} >Calednar</Link>
             <div className="right menu">
               <button className="ui item active" onClick={this.logout}>
                 {button}
@@ -122,6 +124,13 @@ class App extends React.Component {
           )} />
           <Route path="/signup" exact component={SignUp} />
           <Route path="/signin" exact component={SignIn} />
+          <Route path="/calendar" exact render={() => (
+              localStorage.getItem('accessToken') ? (
+                  <Calendar/>
+              ) : (
+                  <Redirect to="/signin"/>
+              )
+          )} />
         </BrowserRouter>
       </div>
     );
