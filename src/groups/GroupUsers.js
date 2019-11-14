@@ -23,6 +23,7 @@ componentDidMount = async () => {
          'Content-Type': 'application/json'
        },
   })
+  
   console.log(response.data);
   this.setState({users: response.data})
   if (this.props.group_props.location.state.group.owner.user_id == localStorage.getItem('user_id')) {
